@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Listagem de Estados</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:growl/>
+            <p:dataTable value="#{controleEstado.dao.listarTodos}" var="obj"
+                         emptyMessage="Nenhum registro encontrado">
+                <f:facet name="header">
+                    <p:commandButton value="Novo"
+                                     action="#{controleEstado.novo()}"
+                                     ajax="false"/>
+                    <p:outputLabel value="Listagem de estados"/>
+                </f:facet>
+                
+                <f:facet name="footer">
+                    <p:outputLabel value="Total de registros: #{controleEstado.dao.listarTodos.size()}"/>
+                </f:facet>
+                
+                <p:column headerText="ID">
+                    <p:outputLabel value="#{obj.id}"/>
+                </p:column>
+                <p:column headerText="Nome">
+                    <p:outputLabel value="#{obj.nome}"/>
+                </p:column>    
+                <p:column headerText="UF">
+                    <p:outputLabel value="#{obj.uf}"/>
+                </p:column>                
+                <p:column headerText="Ações">
+                    <p:commandButton icon="ui-icon-pencil"
+                                     action="#{controleEstado.editar(obj.id)}"
+                                     ajax="false"/>
+                    <p:commandButton icon="ui-icon-trash"
+                                     action="#{controleEstado.excluir(obj.id)}"
+                                     update="@form" process="@form"
+                                     onclick="if (!confirm('Confirma a exclusão do objeto?'))
+                                     return false"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+
