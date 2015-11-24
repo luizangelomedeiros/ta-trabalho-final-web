@@ -881,12 +881,18 @@ exists or setup the property manually. For example like this:
         <ant antfile="${project.TA-2015-2-6N1-Model}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
+        <ant antfile="${project.TA-FINAL-MODELO}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
         <ant antfile="${project.trabalho-ta-6n1-model}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
     </target>
     <target depends="init" if="dist.ear.dir" name="deps-ear-jar" unless="no.deps">
         <ant antfile="${project.TA-2015-2-6N1-Model}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.TA-FINAL-MODELO}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
         <ant antfile="${project.trabalho-ta-6n1-model}/build.xml" inheritall="false" target="jar">
@@ -1044,6 +1050,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.primefaces-5.2.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.TA-2015-2-6N1-Model.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.trabalho-ta-6n1-model.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.TA-FINAL-MODELO.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
@@ -1056,6 +1063,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.primefaces-5.2.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${reference.TA-2015-2-6N1-Model.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${reference.trabalho-ta-6n1-model.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.TA-FINAL-MODELO.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">
         <delete dir="${build.web.dir}/WEB-INF/lib"/>
@@ -1470,6 +1478,7 @@ exists or setup the property manually. For example like this:
             -->
     <target depends="init" name="deps-clean" unless="no.deps">
         <ant antfile="${project.TA-2015-2-6N1-Model}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.TA-FINAL-MODELO}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.trabalho-ta-6n1-model}/build.xml" inheritall="false" target="clean"/>
     </target>
     <target depends="init" name="do-clean">
