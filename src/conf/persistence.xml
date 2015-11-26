@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="TA-2015-2-6N1-WebPU" transaction-type="JTA">
+  <persistence-unit name="TA-INAL-WebPU" transaction-type="JTA">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>jdbc/ta6n1</jta-data-source>
     <class>br.edu.ifsul.modelo.Cidade</class>
-    <class>br.edu.ifsul.modelo.Estado</class>
-    <class>br.edu.ifsul.modelo.Grupo</class>
-    <class>br.edu.ifsul.modelo.Marca</class>
-    <class>br.edu.ifsul.modelo.Pessoa</class>
-    <class>br.edu.ifsul.modelo.PessoaFisica</class>
-    <class>br.edu.ifsul.modelo.Produto</class>
-    <class>br.edu.ifsul.modelo.Telefone</class>    
+    <class>br.edu.ifsul.modelo.Estado</class>   
     <properties>
       <property name="hibernate.hbm2ddl.auto" value="update"/>
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
