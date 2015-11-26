@@ -9,11 +9,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-/**
- *
- * @author Jorge Luis Boeira Bavaresco
- * @email jorge.bavaresco@passofundo.ifsul.edu.br
- */
 @FacesConverter(value = "converterCalendar")
 public class ConverterCalendar implements Converter, Serializable{
 

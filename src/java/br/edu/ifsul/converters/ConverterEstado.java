@@ -10,15 +10,10 @@ import javax.faces.convert.FacesConverter;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-/**
- *
- * @author Jorge Luis Boeira Bavaresco
- * @email jorge.bavaresco@passofundo.ifsul.edu.br
- */
 @FacesConverter(value = "converterEstado")
 public class ConverterEstado implements Converter, Serializable{
     
-    @PersistenceContext(unitName = "TA-2015-2-6N1-WebPU")
+    @PersistenceContext(unitName = "TA-FINAL-WebPU")
     private EntityManager em;
 
     // converte da tela para objeto

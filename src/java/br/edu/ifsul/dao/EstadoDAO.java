@@ -8,15 +8,10 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-/**
- *
- * @author Jorge Luis Boeira Bavaresco
- * @email jorge.bavaresco@passofundo.ifsul.edu.br
- */
 @Stateless
 public class EstadoDAO implements Serializable {
     
-    @PersistenceContext(unitName = "TA-2015-2-6N1-WebPU")
+    @PersistenceContext(unitName = "TA-FINAL-WebPU")
     private EntityManager em;
     private List<Estado> listarTodos;
 

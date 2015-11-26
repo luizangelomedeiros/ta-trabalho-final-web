@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class CidadeDAO implements Serializable {
     
-    @PersistenceContext(unitName = "TA-2015-2-6N1-WebPU")
+    @PersistenceContext(unitName = "TA-FINAL-WebPU")
     private EntityManager em;
     private List<Cidade> listarTodos;
 

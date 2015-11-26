@@ -12,15 +12,14 @@
                           is-isolation-level-guaranteed="true" 
                           lazy-connection-association="false" lazy-connection-enlistment="false" 
                           match-connections="false" max-connection-usage-count="0" max-pool-size="32" max-wait-time-in-millis="60000"
-                          name="ta6n1Pool" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
+                          name="taFinal6n1Pool" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" statement-timeout-in-seconds="-1" steady-pool-size="8" validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
         <property name="serverName" value="localhost"/>
         <property name="portNumber" value="5432"/>
-        <property name="databaseName" value="ta2015-2-6n1"/>
+        <property name="databaseName" value="ta-final"/>
         <property name="User" value="postgres"/>
-        <property name="Password" value="postgres"/>
-        <property name="URL" value="jdbc:postgresql://localhost:5432/ta2015-2-6n1"/>
+        <property name="Password" value="luiz1994"/>
+        <property name="URL" value="jdbc:postgresql://localhost:5432/ta-final"/>
         <property name="driverClass" value="org.postgresql.Driver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="jdbc/ta6n1" object-type="user" 
-                   pool-name="ta6n1Pool"/>
+    <jdbc-resource enabled="true" jndi-name="jdbc/taFinal6n1" object-type="user" pool-name="taFinal6n1Pool"/>
 </resources>

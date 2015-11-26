@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="TA-INAL-WebPU" transaction-type="JTA">
+  <persistence-unit name="TA-FINAL-WebPU" transaction-type="JTA">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <jta-data-source>jdbc/ta6n1</jta-data-source>
+    <jta-data-source>jdbc/taFinal6n1</jta-data-source>
     <class>br.edu.ifsul.modelo.Cidade</class>
     <class>br.edu.ifsul.modelo.Estado</class>   
     <properties>
