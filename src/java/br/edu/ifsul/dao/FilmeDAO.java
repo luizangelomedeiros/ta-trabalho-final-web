@@ -48,7 +48,7 @@ public class FilmeDAO implements Serializable {
     }
 
     public List<Filme> getListarTodos() {
-        return em.createQuery("from PessoaFisica order by nome").getResultList();
+        return em.createQuery("from Filme order by nome").getResultList();
     }
 
     public void setListarTodos(List<Filme> listarTodos) {
