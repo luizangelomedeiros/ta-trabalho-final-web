@@ -11,14 +11,17 @@
         </ui:define>
         <ui:define name="conteudo"> 
             <h:form id="formListagem" prependId="false">
-                <p:growl/>
-                <p:commandButton value="Novo"
-                                 actionListener="#{controleFilme.novo()}"
-                                 update=":formEdicao"
-                                 process="@form"
-                                 oncomplete="PF('dlg').show();"/>
-                <p:dataTable value="#{controleFilme.dao.listarTodos}"
-                             var="obj">
+                <p:growl/>               
+                <p:dataTable value="#{controleFilme.dao.listarTodos}" var="obj">
+                <f:facet name="header">
+                    <p:commandButton value="Novo"
+                                     actionListener="#{controleFilme.novo()}"
+                                     update=":formEdicao"
+                                     process="@form"
+                                     oncomplete="PF('dlg').show();"/>
+                     <p:outputLabel value="Listagem de Filmes"/>
+                </f:facet>
+
                     <f:facet name="footer">
                         <div align="center">
                             <p:outputLabel value="Total de registros: #{controleFilme.dao.listarTodos.size()}"/>
@@ -96,6 +99,7 @@
                                 </p:panelGrid>                                
                             </div>
                         </p:tab>
+                        
                         <p:tab title="Gêneros">
                             <p:dataTable value="#{controleFilme.objeto.generos}"
                                          var="gen" rowIndexVar="idx"
@@ -111,6 +115,13 @@
                                 </f:facet>    
                                 <p:column headerText="Nome">
                                     <p:outputLabel value="#{gen.nome}"/>
+                                </p:column>
+
+                                <p:column headerText="Data Cadastro">
+                                    <p:outputLabel value="#{gen.data}" id="mostraData">
+                                            <f:converter converterId="converterCalendar"/>
+                                    </p:outputLabel>
+
                                 </p:column>
                                 
                                 <p:column headerText="Ações">
@@ -146,13 +157,19 @@
                                 <p:commandButton id="btnAdicionarGenero"
                                                  value="Salvar" icon="ui-icon-disk"
                                                  actionListener="#{controleFilme.salvarGenero()}"
-                                                 update=":formEdicao:tab:listaGenero formGeneros :formEdicao:growl"
-                                                 process="btnAdicionarGenero txtNumero"
+                                                 update=":formEdicao:tab:listaGenero :formGeneros"
+                                                 process="btnAdicionarGenero txtNomeGenero txtDataGenero"
                                                  oncomplete="if(!args.validationFailed){PF('dlgGenero').hide();}"/>                                
                             </div>
                         </f:facet>
-                        <p:outputLabel value="Telefone" for="txtNumero"/>
-                        <p:inputText id="txtNumero" value="#{controleFilme.genero.nome}" />
+                        <p:outputLabel value="Nome" for="txtNomeGenero"/>
+                        <p:inputText id="txtNomeGenero" value="#{controleFilme.genero.nome}" />
+                        
+                        <p:calendar value="#{controleFilme.genero.data}"
+                                    id="txtDataGenero"
+                                    mask="true" pattern="dd/MM/yyyy" navigator="true">
+                                    <f:converter converterId="converterCalendar"/>
+                        </p:calendar>
                
                     </p:panelGrid>
                 </h:form>       
