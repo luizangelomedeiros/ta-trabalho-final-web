@@ -8,8 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import br.edu.ifsul.modelo.Filme;
 
-
-
 @Stateless
 public class FilmeDAO implements Serializable {
     
