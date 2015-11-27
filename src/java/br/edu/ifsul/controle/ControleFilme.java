@@ -1,6 +1,7 @@
 package br.edu.ifsul.controle;
 
 import br.edu.ifsul.dao.CidadeDAO;
+import br.edu.ifsul.dao.FilmeDAO;
 import br.edu.ifsul.modelo.Filme;
 import br.edu.ifsul.modelo.Genero;
 import br.edu.ifsul.util.Util;
@@ -16,7 +17,7 @@ import javax.faces.bean.ViewScoped;
 public class ControleFilme implements Serializable {
 
     @EJB
-    private PessoaFisicaDAO dao;
+    private FilmeDAO dao;
     private Filme objeto;
     
     @EJB
@@ -88,11 +89,11 @@ public class ControleFilme implements Serializable {
         Util.mensagemInformacao("Operação realizada com sucesso!");
     }
     
-    public PessoaFisicaDAO getDao() {
+    public FilmeDAO getDao() {
         return dao;
     }
 
-    public void setDao(PessoaFisicaDAO dao) {
+    public void setDao(FilmeDAO dao) {
         this.dao = dao;
     }
 
