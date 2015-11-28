@@ -19,25 +19,36 @@
             <p:layoutUnit position="west" header="Menu"
                           resizable="true"
                           closable="true"
-                          collapsible="true" size="170">
+                          collapsible="true" size="250">
+                
                 <h:form id="formMenu" prependId="false">
                     <p:menu>
                         <p:submenu label="Cadastros">
+                            
+                            <p:menuitem action="#{controleCinema.listar()}"
+                                        value="Manutenção de Cinemas"
+                                        ajax="false"/>   
+                            
+                            <p:menuitem action="#{controleFilme.listar()}"
+                                        value="Manutenção de Funcionários"
+                                        ajax="false"/>    
+                            
                             <p:menuitem action="#{controleEstado.listar()}"
-                                        value="Manutenção de estados"
+                                        value="Manutenção de Estados"
                                         ajax="false"/>
+                            
                             <p:menuitem action="#{controleCidade.listar()}"
-                                        value="Manutenção de cidades"
+                                        value="Manutenção de Cidades"
                                         ajax="false"/>
+                            
                             <p:menuitem action="#{controleFilme.listar()}"
                                         value="Manutenção de Filmes"
-                                        ajax="false"/>                            
+                                        ajax="false"/>                  
+                            
                             <p:menuitem action="#{controleFilme.listar()}"
-                                        value="Manutenção de Clientes"
+                                        value="Manutenção de Gêneros"
                                         ajax="false"/>                            
-                            <p:menuitem action="#{controleFilme.listar()}"
-                                        value="Manutenção de Usuários"
-                                        ajax="false"/>                            
+                                                                          
                         </p:submenu>
                     </p:menu>
                 </h:form>

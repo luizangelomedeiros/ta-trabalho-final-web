@@ -10,3 +10,14 @@
 .ui-layout-north .ui-layout-unit-content {
     overflow:visible !important;
 }
+
+.ui-menu {
+    width: 17.5em !important;
+}
+
+.ui-selectonemenu{
+     width: 100% !important;
+}
+.ui-selectonemenu-label{
+     width: 100% !important;
+}  

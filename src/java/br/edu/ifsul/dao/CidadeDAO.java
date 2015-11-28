@@ -1,4 +1,3 @@
-
 package br.edu.ifsul.dao;
 
 import br.edu.ifsul.modelo.Cidade;
@@ -7,7 +6,6 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 
 @Stateless
 public class CidadeDAO implements Serializable {

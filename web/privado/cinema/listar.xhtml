@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="titulo">
+            Listagem de Cinemas
+        </ui:define>
+        <ui:define name="conteudo"> 
+            <h:form id="formListagem" prependId="false">
+                <p:growl/>               
+                <p:dataTable value="#{controleCinema.dao.listarTodos}" var="obj">
+                <f:facet name="header">
+                    <p:commandButton value="Novo"
+                                     actionListener="#{controleCinema.novo()}"
+                                     update=":formEdicao"
+                                     process="@form"
+                                     oncomplete="PF('dlg').show();"/>
+                     <p:outputLabel value="Listagem de Cinemas"/>
+                </f:facet>
+
+                    <f:facet name="footer">
+                        <div align="center">
+                            <p:outputLabel value="Total de registros: #{controleCinema.dao.listarTodos.size()}"/>
+                        </div>
+                    </f:facet>
+                    
+                    <p:column headerText="ID">
+                        <p:outputLabel value="#{obj.id}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Cidade">
+                        <p:outputLabel value="#{obj.cidade}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Endereço">
+                        <p:outputLabel value="#{obj.endereco}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Horário de Funcionamento">
+                        <p:outputLabel value="#{obj.horarioFunc}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Quantidade de Salas">
+                        <p:outputLabel value="#{obj.qtdSalas}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Capacidade Total">
+                        <p:outputLabel value="#{obj.capacidadeTotal}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Quantidade Funcionários">
+                        <p:outputLabel value="#{obj.qtdFuncionarios}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Ações">
+                        <div align="center">
+                            <p:commandButton icon="ui-icon-pencil"
+                                             action="#{controleCinema.editar(obj.id)}"
+                                             oncomplete="PF('dlg').show();"
+                                             update=":formEdicao"
+                                             process="@form"/>
+                            <p:commandButton icon="ui-icon-trash"
+                                             action="#{controleCinema.excluir(obj.id)}"
+                                             update="@form" process="@form"
+                                             onclick="if (!confirm('Confirma a exclusão do objeto?'))
+                                                         return false"/>                            
+                        </div>
+                    </p:column>
+                </p:dataTable>
+
+            </h:form>
+        </ui:define>
+        <ui:define name="dialogos">
+            <p:dialog header="Edição" widgetVar="dlg"
+                      resizable="false" modal="true" width="550" height="480">
+                <h:form id="formEdicao" prependId="false">
+                    <p:growl id="growl"/>
+                    <p:tabView id="tab">
+                        <p:tab title="Dados Principais">
+                            <div align="center">
+                                <p:panelGrid columns="2">
+                                    <f:facet name="footer">
+                                        <div align="center">
+                                            <p:commandButton actionListener="#{controleCinema.salvar()}"
+                                                             update=":formListagem :formEdicao"
+                                                             value="Salvar"
+                                                             icon="ui-icon-disk"
+                                                             oncomplete="if (!args.validationFailed) {PF('dlg').hide();}"/>
+                                        </div>                            
+                                    </f:facet>
+                                                                        
+                                    <p:outputLabel value="ID"/>
+                                    <p:inputText value="#{controleCinema.objeto.id}" readonly="true" size="5"/>
+                                    
+                                    <p:outputLabel value="CIDADE"/>
+                                    <p:selectOneMenu value="#{controleCinema.objeto.cidade}" id="selectCidade">
+                                        <f:converter converterId="converterCidade"/>
+                                        <f:selectItems value="#{controleCinema.daoCidades.listarTodos}"
+                                                       var="c" itemLabel="#{c.nome}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Endereço" for="txtEnd"/>                                    
+                                    <p:inputText value="#{controleCinema.objeto.endereco}" id="txtEnd" 
+                                                 size="50" maxlength="50"/>
+                                  
+                                    <p:outputLabel value="Horário de Funcionamento" for="txtHorarioFunc"/>                                    
+                                    <p:inputText value="#{controleCinema.objeto.horarioFunc}" id="txtHorarioFunc" 
+                                                 size="50" maxlength="50"/>
+                                                                   
+                                    <p:outputLabel value="Quantidade de Salas" for="txtQtdSalas"/>                                    
+                                    <p:inputText value="#{controleCinema.objeto.qtdSalas}" id="txtQtdSalas" 
+                                                 size="50" maxlength="50"/>
+                                                        
+                                    <p:outputLabel value="Capacidade Total" for="txtcapacidadeTotal"/>                                    
+                                    <p:inputText value="#{controleCinema.objeto.capacidadeTotal}" id="txtcapacidadeTotal" 
+                                                 size="50" maxlength="50"/>
+                                                                                         
+                                    <p:outputLabel value="Quantidade de Funcionários" for="txtqtdFuncionarios"/>                                    
+                                    <p:inputText value="#{controleCinema.objeto.qtdFuncionarios}" id="txtqtdFuncionarios" 
+                                                 size="50" maxlength="50"/>
+                                 
+                                </p:panelGrid>                                
+                            </div>
+                        </p:tab>                 
+                    </p:tabView>
+                </h:form>         
+            </p:dialog>
+           
+        </ui:define>
+    </ui:composition>
+</html>
+

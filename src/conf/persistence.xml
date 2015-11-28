@@ -7,6 +7,7 @@
     <class>br.edu.ifsul.modelo.Estado</class>
     <class>br.edu.ifsul.modelo.Filme</class> 
     <class>br.edu.ifsul.modelo.Genero</class>
+    <class>br.edu.ifsul.modelo.Cinema</class>
     <properties>
       <property name="hibernate.hbm2ddl.auto" value="update"/>
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
