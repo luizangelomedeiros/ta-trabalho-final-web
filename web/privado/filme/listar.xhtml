@@ -83,60 +83,73 @@
                                     <p:outputLabel value="Duração" for="txtDuracao"/>
                                     <p:inputText id="txtDuracao" value="#{controleFilme.objeto.duracao}"
                                                  size="10" maxlength="30"/>      
-                                                                      
-                                    <p:outputLabel value="Numero de Discos" for="txtNumero"/>
-                                    <p:inputText id="txtNumero" value="#{controleFilme.objeto.num_discos}"
-                                                 size="10" maxlength="10"/>      
-                                                                                           
+                                                                   
                                     <p:outputLabel value="Data de Lançamento" for="txtData"/>
                                     <p:calendar value="#{controleFilme.objeto.data_lancamento}"
                                                 id="txtData"
                                                 mask="true" pattern="dd/MM/yyyy" navigator="true">
                                                 <f:converter converterId="converterCalendar"/>
                                     </p:calendar>
-                                   
-                                   
+                                                                    
+                                    <p:outputLabel value="Numero de Discos" for="txtNumero"/>
+                                    <p:inputText id="txtNumero" value="#{controleFilme.objeto.num_discos}"
+                                                 size="10" maxlength="10"/>      
+                                                              
                                 </p:panelGrid>                                
                             </div>
                         </p:tab>
                         
-                        <p:tab title="Gêneros">
-                            <p:dataTable value="#{controleFilme.objeto.generos}"
-                                         var="gen" rowIndexVar="idx"
-                                         id="listaGenero">
+                        <p:tab title="Sessões">
+                            <p:dataTable value="#{controleFilme.objeto.sessoes}"
+                                         var="ses" rowIndexVar="idx"
+                                         id="listaSessao">
                                 <f:facet name="header">
                                     <p:commandButton value="Novo Gênero"
-                                                     actionListener="#{controleFilme.novoGenero()}"
-                                                     update=":formGeneros"
+                                                     actionListener="#{controleFilme.novaSessao()}"
+                                                     update=":formSessoes"
                                                      icon="ui-icon-plus"
-                                                     id="btnNovoGenero"
-                                                     process="btnNovoGenero"
-                                                     oncomplete="PF('dlgGenero').show();"/>                                                     
-                                </f:facet>    
-                                <p:column headerText="Nome">
-                                    <p:outputLabel value="#{gen.nome}"/>
-                                </p:column>
-
-                                <p:column headerText="Data Cadastro">
-                                    <p:outputLabel value="#{gen.data}" id="mostraData">
+                                                     id="btnNovaSessao"
+                                                     process="btnNovaSessao"
+                                                     oncomplete="PF('dlgSessao').show();"/>                                                     
+                                </f:facet>  
+                                
+                                
+                                <p:column headerText="Data">
+                                    <p:outputLabel value="#{ses.data}" id="mostraData">
                                             <f:converter converterId="converterCalendar"/>
                                     </p:outputLabel>
-
                                 </p:column>
                                 
+                                <p:column headerText="Hora">
+                                    <p:outputLabel value="#{ses.hora}"/>
+                                </p:column>
+                                
+                                <p:column headerText="Valor Inteiro">
+                                    <p:outputLabel value="#{ses.valorInteiro}"/>
+                                </p:column>
+                                
+                                <p:column headerText="Valor Meia">
+                                    <p:outputLabel value="#{ses.valorMeia}"/>
+                                </p:column>
+                                
+                                <p:column headerText="Numero da Sala">
+                                    <p:outputLabel value="#{ses.numSala}"/>
+                                </p:column>
+                                                                
                                 <p:column headerText="Ações">
                                     <div align="center">
-                                        <p:commandButton id="btnAlterarGenero"
+                                        <p:commandButton id="btnAlterarSessao"
                                                          icon="ui-icon-pencil"
-                                                         actionListener="#{controleFilme.alterarGenero(idx)}"
-                                                         process="btnAlterarGenero"
-                                                         update=":formGeneros"
-                                                         oncomplete="PF('dlgGenero').show();"/>
-                                        <p:commandButton id="btnExcluirGenero"   
+                                                         actionListener="#{controleFilme.alterarSessao(idx)}"
+                                                         process="btnAlterarSessao"
+                                                         update=":formSessoes"
+                                                         oncomplete="PF('dlgSessao').show();"/>
+                                       
+                                        <p:commandButton id="btnExcluirSessoes"   
                                                          icon="ui-icon-trash"
-                                                         actionListener="#{controleFilme.removerGenero(idx)}"
-                                                         process="btnExcluirGenero"
-                                                         update="listaGenero growl"
+                                                         actionListener="#{controleFilme.removerSessao(idx)}"
+                                                         process="btnExcluirSessoes"
+                                                         update="listaSessao growl"
                                                          onclick="if (!confirm('Confirme a exclusão?')) return false"/>                                        
                                     </div>
                                 </p:column>                                    
@@ -146,32 +159,50 @@
 
                 </h:form>         
             </p:dialog>
-            <p:dialog header="Edição de Gêneros"
-                      widgetVar="dlgGenero" resizable="false"
-                      modal="true">
-                <h:form id="formGeneros" >
+            
+            <p:dialog header="Edição de Sessões"
+                      widgetVar="dlgSessao" resizable="false"
+                      modal="true"
+                      width="400">
+                <h:form id="formSessoes">
                     <p:growl/>
-                    <p:panelGrid columns="2">
+                    <p:panelGrid columns="2" style="width:100% !important">
                         <f:facet name="footer">
                             <div align="center">
-                                <p:commandButton id="btnAdicionarGenero"
+                                <p:commandButton id="btnAdicionarSessao"
                                                  value="Salvar" icon="ui-icon-disk"
-                                                 actionListener="#{controleFilme.salvarGenero()}"
-                                                 update=":formEdicao:tab:listaGenero :formGeneros"
-                                                 process="btnAdicionarGenero txtNomeGenero txtDataGenero"
-                                                 oncomplete="if(!args.validationFailed){PF('dlgGenero').hide();}"/>                                
+                                                 actionListener="#{controleFilme.salvarSessao()}"
+                                                 update=":formEdicao:tab:listaSessao :formSessoes"
+                                                 process=":formSessoes"
+                                                 oncomplete="if(!args.validationFailed){PF('dlgSessao').hide();}"/>                                
                             </div>
                         </f:facet>
-                        <p:outputLabel value="Nome" for="txtNomeGenero"/>
-                        <p:inputText id="txtNomeGenero" value="#{controleFilme.genero.nome}" />
-                         
-                        <p:outputLabel value="Data de Cadastro" for="txtDataGenero"/>
-                        <p:calendar value="#{controleFilme.genero.data}"
-                                    id="txtDataGenero"
+                        
+                        <p:outputLabel value="Data" for="txtDataSessao"/>
+                        <p:calendar value="#{controleFilme.sessao.data}"
+                                    id="txtDataSessao"
                                     mask="true" pattern="dd/MM/yyyy" navigator="true">
                                     <f:converter converterId="converterCalendar"/>
-                        </p:calendar>
-               
+                        </p:calendar>               
+                        
+                        <p:outputLabel value="Hora" for="txtNomeSessao"/>
+                        <p:inputText id="txtNomeSessao" value="#{controleFilme.sessao.hora}" />
+                        
+                        <p:outputLabel value="Valor Inteiro" for="txtValorSessao"/>
+                        <p:inputText id="txtValorSessao" value="#{controleFilme.sessao.valorInteiro}" />
+                        
+                        <p:outputLabel value="Valor Meia" for="txtValorMeia"/>
+                        <p:inputText id="txtValorMeia" value="#{controleFilme.sessao.valorMeia}" />
+                                                                        
+                        <p:outputLabel value="Numero Sala" for="txtNumSala"/>
+                        <p:inputText id="txtNumSala" value="#{controleFilme.sessao.numSala}" />
+                                                                        
+                        <p:outputLabel value="Cinema"/>
+                        <p:selectOneMenu value="#{controleFilme.sessao.cinema}" id="selectCidade">
+                            <f:converter converterId="converterCinema"/>
+                            <f:selectItems value="#{controleFilme.cinemaDao.listarTodos}"
+                                           var="c" itemLabel="#{c.id}-#{c.cidade}-#{c.endereco}"/>
+                        </p:selectOneMenu>  
                     </p:panelGrid>
                 </h:form>       
             </p:dialog>

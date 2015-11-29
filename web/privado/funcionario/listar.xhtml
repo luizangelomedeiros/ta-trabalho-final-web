@@ -41,7 +41,9 @@
                     </p:column>
                                        
                     <p:column headerText="Data Nascimento">
-                        <p:outputLabel value="#{obj.data_nascimento}"/>
+                        <p:outputLabel value="#{obj.data_nascimento}">
+                            <f:converter converterId="converterCalendar"/>
+                        </p:outputLabel>                        
                     </p:column>
                                        
                     <p:column headerText="Estado Civil">
@@ -78,6 +80,7 @@
 
             </h:form>
         </ui:define>
+        
         <ui:define name="dialogos">
             <p:dialog header="Edição" widgetVar="dlg"
                       resizable="false" modal="true" width="550" height="480">
@@ -105,8 +108,7 @@
                                                  size="50" maxlength="50"/>
                                    
                                     <p:outputLabel value="CPF" for="txtCpf"/>                                    
-                                    <p:inputText value="#{controleFuncionario.objeto.cpf}" id="txtCpf" 
-                                                 size="50" maxlength="50"/>
+                                    <p:inputMask id="txtCpf" value="#{controleFuncionario.objeto.cpf}" mask="999.999.999-99"/>
                                    
                                      <p:outputLabel value="Data de Nascimento" for="txtData"/>
                                      <p:calendar value="#{controleFuncionario.objeto.data_nascimento}"
@@ -128,13 +130,22 @@
                                                  size="50" maxlength="50"/>
                                                                                                                                            
                                     <p:outputLabel value="Senha" for="txtSenha"/>                                    
-                                    <p:inputText value="#{controleFuncionario.objeto.senha}" id="txtSenha" 
+                                    <p:password value="#{controleFuncionario.objeto.senha}" redisplay="true" id="txtSenha" 
                                                  size="50" maxlength="50"/>
-                                  
+                                                       
+                                    <p:outputLabel value="Ativo" for="txtAtivo"/>  
+                                    <p:selectBooleanButton id="txtAtivo" value="FALSE" onLabel="Sim" offLabel="Não" />
+
                                     <p:outputLabel value="Salário" for="txtSalario"/>                                    
                                     <p:inputText value="#{controleFuncionario.objeto.salario}" id="txtSalario" 
                                                  size="50" maxlength="50"/>
-                                  
+                                    
+                                    <p:outputLabel value="Cinema"/>
+                                    <p:selectOneMenu value="#{controleFuncionario.objeto.idcinema}" id="selectCidade">
+                                        <f:converter converterId="converterCinema"/>
+                                        <f:selectItems value="#{controleFuncionario.daoCinema.listarTodos}"
+                                                       var="c" itemLabel="#{c.id}-#{c.cidade}-#{c.endereco}"/>
+                                    </p:selectOneMenu>                               
                                 </p:panelGrid>                                
                             </div>
                         </p:tab>                 

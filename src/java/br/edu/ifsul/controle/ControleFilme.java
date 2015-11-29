@@ -1,14 +1,13 @@
 package br.edu.ifsul.controle;
 
-import br.edu.ifsul.dao.CidadeDAO;
+import br.edu.ifsul.dao.CinemaDAO;
 import br.edu.ifsul.dao.FilmeDAO;
 import br.edu.ifsul.modelo.Filme;
-import br.edu.ifsul.modelo.Genero;
+import br.edu.ifsul.modelo.Sessao;
 import br.edu.ifsul.util.Util;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 
@@ -18,12 +17,12 @@ public class ControleFilme implements Serializable {
 
     @EJB
     private FilmeDAO dao;
-    private Filme objeto;
-    
+    private Filme objeto;    
     @EJB
-    private CidadeDAO daoCidade;
-    private Genero genero; 
-    private boolean novoGenero;
+    private CinemaDAO cinemaDao;
+    
+    private Sessao sessao; 
+    private boolean novaSessao;
 
     public ControleFilme() {
     }
@@ -67,25 +66,25 @@ public class ControleFilme implements Serializable {
         }
     }
     
-    public void novoGenero(){
-        genero = new Genero();
-        novoGenero = true;        
+    public void novaSessao(){
+        sessao = new Sessao();
+        novaSessao = true;        
     }
     
-    public void alterarGenero(int index){
-        genero = objeto.getGeneros().get(index);
-        novoGenero = false;
+    public void alterarSessao(int index){
+        sessao = objeto.getSessoes().get(index);
+        novaSessao = false;
     }
     
-    public void salvarGenero(){
-        if(novoGenero){
-            objeto.adicionarGenero(genero);
+    public void salvarSessao(){
+        if(novaSessao){
+            objeto.adicionarSessao(sessao);
         }        
         Util.mensagemInformacao("Operação realizada com sucesso");
     }
         
-    public void removerGenero(int index){
-        objeto.removerGenero(index); 
+    public void removerSessao(int index){
+        objeto.removerSessao(index); 
         Util.mensagemInformacao("Operação realizada com sucesso!");
     }
     
@@ -105,30 +104,29 @@ public class ControleFilme implements Serializable {
         this.objeto = objeto;
     }
 
-    public CidadeDAO getDaoCidade() {
-        return daoCidade;
+    public Sessao getSessao() {
+        return sessao;
     }
 
-    public void setDaoCidade(CidadeDAO daoCidade) {
-        this.daoCidade = daoCidade;
+    public void setSessao(Sessao sessao) {
+        this.sessao = sessao;
     }
 
-    public Genero getGenero() {
-        return genero;
+    public boolean isNovaSessao() {
+        return novaSessao;
     }
 
-    public void setGenero(Genero genero) {
-        this.genero = genero;
+    public void setNovaSessao(boolean novaSessao) {
+        this.novaSessao = novaSessao;
     }
 
-    public boolean isNovoTelefone() {
-        return novoGenero;
+    public CinemaDAO getCinemaDao() {
+        return cinemaDao;
     }
 
-    public void setNovoTelefone(boolean novoGenero) {
-        this.novoGenero = novoGenero;
+    public void setCinemaDao(CinemaDAO cinemaDao) {
+        this.cinemaDao = cinemaDao;
     }
-    
     
     
 }

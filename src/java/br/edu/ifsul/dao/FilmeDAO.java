@@ -33,7 +33,7 @@ public class FilmeDAO implements Serializable {
     
     public Filme getObjectById(Integer id) throws Exception {
         Filme obj = em.find(Filme.class, id);
-        obj.getGeneros().size();
+        obj.getSessoes().size();
         return obj;
     }
 
