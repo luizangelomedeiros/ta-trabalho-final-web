@@ -99,12 +99,60 @@
                             </div>
                         </p:tab>
                         
+                        <p:tab title="Gêneros">
+                            <p:dataTable value="#{controleFilme.objeto.filme_genero}"
+                                         var="gen" rowIndexVar="idxGen"
+                                         id="listaGenero">
+                                
+                                <f:facet name="header">
+                                    <p:panelGrid columns="2">
+                                    <p:selectOneMenu value="#{controleFilme.genero}" id="selectGenero">
+                                        <f:converter converterId="converterGenero"/>
+                                        <f:selectItem noSelectionOption="true"
+                                                      itemLabel="Selecione um registro"/>
+                                        <f:selectItems value="#{controleFilme.generoDao.listarTodos}"
+                                                       var="p" itemLabel="#{p.nome}"/>
+                                    </p:selectOneMenu> 
+                                        
+                                    <p:commandButton value="Adicionar"
+                                                     actionListener="#{controleFilme.adicionarGeneros()}"
+                                                     update="listaGenero :formEdicao:growl"
+                                                     process="btnNovoGenero selectGenero"                                                    
+                                                     id="btnNovoGenero"
+                                                     icon="ui-icon-plus"
+                                                     /> 
+                                    </p:panelGrid>
+                                </f:facet>  
+                                
+                                <p:column headerText="Gênero">
+                                    <p:outputLabel value="#{gen.nome}"/>
+                                </p:column>
+                                               
+                                <p:column headerText="Data">
+                                    <p:outputLabel value="#{gen.data}" id="mostraDataGen">
+                                            <f:converter converterId="converterCalendar"/>
+                                    </p:outputLabel>
+                                </p:column>
+                                                 
+                                <p:column headerText="Ações">
+                                    <div align="center">
+                                        <p:commandButton id="btnExcluirGeneros"   
+                                                         icon="ui-icon-trash"
+                                                         actionListener="#{controleFilme.removerGeneros(idxGen)}"
+                                                         process="btnExcluirGeneros"
+                                                         update="listaGenero growl"
+                                                         onclick="if (!confirm('Confirme a exclusão?')) return false"/>                                        
+                                    </div>
+                                </p:column>                                    
+                            </p:dataTable>                                         
+                        </p:tab>
+                        
                         <p:tab title="Sessões">
                             <p:dataTable value="#{controleFilme.objeto.sessoes}"
                                          var="ses" rowIndexVar="idx"
                                          id="listaSessao">
                                 <f:facet name="header">
-                                    <p:commandButton value="Novo Gênero"
+                                    <p:commandButton value="Nova Sessão"
                                                      actionListener="#{controleFilme.novaSessao()}"
                                                      update=":formSessoes"
                                                      icon="ui-icon-plus"
@@ -159,7 +207,7 @@
 
                 </h:form>         
             </p:dialog>
-            
+           
             <p:dialog header="Edição de Sessões"
                       widgetVar="dlgSessao" resizable="false"
                       modal="true"
@@ -206,7 +254,6 @@
                     </p:panelGrid>
                 </h:form>       
             </p:dialog>
-            
         </ui:define>
     </ui:composition>
 </html>

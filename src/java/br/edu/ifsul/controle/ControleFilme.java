@@ -2,7 +2,9 @@ package br.edu.ifsul.controle;
 
 import br.edu.ifsul.dao.CinemaDAO;
 import br.edu.ifsul.dao.FilmeDAO;
+import br.edu.ifsul.dao.GeneroDAO;
 import br.edu.ifsul.modelo.Filme;
+import br.edu.ifsul.modelo.Genero;
 import br.edu.ifsul.modelo.Sessao;
 import br.edu.ifsul.util.Util;
 import java.io.Serializable;
@@ -19,10 +21,12 @@ public class ControleFilme implements Serializable {
     private FilmeDAO dao;
     private Filme objeto;    
     @EJB
-    private CinemaDAO cinemaDao;
-    
+    private CinemaDAO cinemaDao;    
     private Sessao sessao; 
     private boolean novaSessao;
+    @EJB
+    private GeneroDAO generoDao;    
+    private Genero genero;
 
     public ControleFilme() {
     }
@@ -33,6 +37,24 @@ public class ControleFilme implements Serializable {
 
     public void novo() {
         objeto = new Filme();        
+    }
+    
+    public void adicionarGeneros(){
+        if (genero != null){
+            if (!objeto.getFilme_genero().contains(genero)){
+                objeto.getFilme_genero().add(genero);
+                Util.mensagemInformacao("Gênero adicionado com sucesso");
+            } else {
+                Util.mensagemErro("Gênero já existente na lista");
+            }
+        }
+    }
+    
+    public void removerGeneros(int idx){
+        Genero p = objeto.getFilme_genero().get(idx);
+        objeto.getFilme_genero().remove(p);
+        Util.mensagemInformacao("Gênero removido");
+              
     }
 
     public void salvar() {
@@ -75,7 +97,7 @@ public class ControleFilme implements Serializable {
         sessao = objeto.getSessoes().get(index);
         novaSessao = false;
     }
-    
+        
     public void salvarSessao(){
         if(novaSessao){
             objeto.adicionarSessao(sessao);
@@ -127,6 +149,21 @@ public class ControleFilme implements Serializable {
     public void setCinemaDao(CinemaDAO cinemaDao) {
         this.cinemaDao = cinemaDao;
     }
-    
+
+    public Genero getGenero() {
+        return genero;
+    }
+
+    public void setGenero(Genero genero) {
+        this.genero = genero;
+    }
+
+    public GeneroDAO getGeneroDao() {
+        return generoDao;
+    }
+
+    public void setGeneroDao(GeneroDAO generoDao) {
+        this.generoDao = generoDao;
+    }
     
 }
