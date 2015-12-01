@@ -1,56 +1,33 @@
 
 package br.edu.ifsul.dao;
 
+import br.edu.ifsul.converters.ConverterOrder;
+import br.edu.ifsul.modelo.Filme;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import br.edu.ifsul.modelo.Filme;
 
 @Stateless
-public class FilmeDAO implements Serializable {
-    
-    @PersistenceContext(unitName = "TA-FINAL-WebPU")
-    private EntityManager em;
-    private List<Filme> listarTodos;
+public class FilmeDAO<T> extends GenericDAO<Filme> implements Serializable {
 
     public FilmeDAO() {
-    }
-    
-    public void persist(Filme objeto) throws Exception {
-        em.persist(objeto);        
-    }
-    
-    public void merge(Filme objeto) throws Exception {
-        em.merge(objeto);
-    }
-    
-    public void remove(Filme objeto) throws Exception{
-        objeto = em.merge(objeto);
-        em.remove(objeto);
-    }
-    
-    public Filme getObjectById(Integer id) throws Exception {
-        Filme obj = em.find(Filme.class, id);
-        obj.getSessoes().size();
-        return obj;
-    }
+        super();
+        super.setPersistentClass(Filme.class);
 
-    public EntityManager getEm() {
-        return em;
-    }
+        super.getListOrder().add(new Order("id", "ID", "="));
+        super.getListOrder().add(new Order("nome", "Nome", "like"));
+        super.getListOrder().add(new Order("data_lancamento", "Data de Lançamento", "="));
+        super.getListOrder().add(new Order("duracao", "Duração", "like"));
+        super.getListOrder().add(new Order("idioma", "Idioma", "like"));
+        super.getListOrder().add(new Order("num_discos", "Num. Discos", "="));
 
-    public void setEm(EntityManager em) {
-        this.em = em;
-    }
+        super.setCurrentOrder((Order) super.getListOrder().get(0));
 
-    public List<Filme> getListarTodos() {
-        return em.createQuery("from Filme order by nome").getResultList();
-    }
+        super.setFilter("");
 
-    public void setListarTodos(List<Filme> listarTodos) {
-        this.listarTodos = listarTodos;
+        super.setConverterOrder(new ConverterOrder(super.getListOrder()));
     }
-
+   
 }

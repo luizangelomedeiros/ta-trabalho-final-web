@@ -13,7 +13,7 @@ import javax.faces.bean.SessionScoped;
 public class ControleEstado implements Serializable {
 
     @EJB
-    private EstadoDAO dao;
+    private EstadoDAO<Estado> dao;
     private Estado objeto;
 
     public ControleEstado() {
@@ -23,9 +23,8 @@ public class ControleEstado implements Serializable {
         return "/privado/estado/listar?faces-redirect=true";
     }
 
-    public String novo() {
+    public void novo() {
         objeto = new Estado();
-        return "formulario";
     }
 
     public String salvar() {
@@ -48,13 +47,11 @@ public class ControleEstado implements Serializable {
         return "listar";
     }
 
-    public String editar(Integer id) {
+    public void editar(Integer id) {
         try {
             objeto = dao.getObjectById(id);
-            return "formulario";
         } catch (Exception e) {
             Util.mensagemErro("Erro ao recuperar objeto: "+e.getMessage());
-            return "listar";
         }
     }
     

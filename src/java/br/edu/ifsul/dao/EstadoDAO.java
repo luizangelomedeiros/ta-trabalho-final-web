@@ -1,6 +1,7 @@
 
 package br.edu.ifsul.dao;
 
+import br.edu.ifsul.converters.ConverterOrder;
 import br.edu.ifsul.modelo.Estado;
 import java.io.Serializable;
 import java.util.List;
@@ -9,46 +10,23 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Stateless
-public class EstadoDAO implements Serializable {
-    
-    @PersistenceContext(unitName = "TA-FINAL-WebPU")
-    private EntityManager em;
-    private List<Estado> listarTodos;
+public class EstadoDAO<T> extends GenericDAO<Estado> implements Serializable {
 
     public EstadoDAO() {
-    }
-    
-    public void persist(Estado objeto) throws Exception {
-        em.persist(objeto);        
-    }
-    
-    public void merge(Estado objeto) throws Exception {
-        em.merge(objeto);
-    }
-    
-    public void remove(Estado objeto) throws Exception{
-        objeto = em.merge(objeto);
-        em.remove(objeto);
-    }
-    
-    public Estado getObjectById(Integer id) throws Exception {
-        return em.find(Estado.class, id);
-    }
+        super();
+        super.setPersistentClass(Estado.class);
 
-    public EntityManager getEm() {
-        return em;
-    }
+        super.getListOrder().add(
+                new Order("id", "ID", "="));
+        super.getListOrder().add(
+                new Order("nome", "Nome", "like"));
+        super.getListOrder().add(
+                new Order("uf", "UF", "like"));
 
-    public void setEm(EntityManager em) {
-        this.em = em;
-    }
+        super.setCurrentOrder((Order) super.getListOrder().get(1));
 
-    public List<Estado> getListarTodos() {
-        return em.createQuery("from Estado order by nome").getResultList();
-    }
+        super.setFilter("");
 
-    public void setListarTodos(List<Estado> listarTodos) {
-        this.listarTodos = listarTodos;
+        super.setConverterOrder(new ConverterOrder(super.getListOrder()));
     }
-
 }

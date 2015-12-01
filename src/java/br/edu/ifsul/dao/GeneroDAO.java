@@ -1,6 +1,7 @@
 
 package br.edu.ifsul.dao;
 
+import br.edu.ifsul.converters.ConverterOrder;
 import br.edu.ifsul.modelo.Genero;
 import java.io.Serializable;
 import java.util.List;
@@ -9,47 +10,23 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Stateless
-public class GeneroDAO implements Serializable {
-    
-    @PersistenceContext(unitName = "TA-FINAL-WebPU")
-    private EntityManager em;
-    private List<Genero> listarTodos;
+public class GeneroDAO<T> extends GenericDAO<Genero> implements Serializable {
 
     public GeneroDAO() {
-    }
-    
-    public void persist(Genero objeto) throws Exception {
-        em.persist(objeto);        
-    }
-    
-    public void merge(Genero objeto) throws Exception {
-        em.merge(objeto);
-    }
-    
-    public void remove(Genero objeto) throws Exception{
-        objeto = em.merge(objeto);
-        em.remove(objeto);
-    }
-    
-    public Genero getObjectById(Integer id) throws Exception {
-        Genero obj = em.find(Genero.class, id);
-        return obj;
-    }
+        super();
+        super.setPersistentClass(Genero.class);
 
-    public EntityManager getEm() {
-        return em;
-    }
+        super.getListOrder().add(
+                new Order("id", "ID", "="));
+        super.getListOrder().add(
+                new Order("nome", "Nome", "like"));
+        super.getListOrder().add(
+                new Order("data", "Data", "="));
 
-    public void setEm(EntityManager em) {
-        this.em = em;
-    }
+        super.setCurrentOrder((Order) super.getListOrder().get(1));
 
-    public List<Genero> getListarTodos() {
-        return em.createQuery("from Genero order by nome").getResultList();
-    }
+        super.setFilter("");
 
-    public void setListarTodos(List<Genero> listarTodos) {
-        this.listarTodos = listarTodos;
+        super.setConverterOrder(new ConverterOrder(super.getListOrder()));
     }
-
 }

@@ -1,53 +1,28 @@
 package br.edu.ifsul.dao;
 
+import br.edu.ifsul.converters.ConverterOrder;
 import br.edu.ifsul.modelo.Cidade;
 import java.io.Serializable;
-import java.util.List;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @Stateless
-public class CidadeDAO implements Serializable {
+public class CidadeDAO<T> extends GenericDAO<Cidade> implements Serializable {
     
-    @PersistenceContext(unitName = "TA-FINAL-WebPU")
-    private EntityManager em;
-    private List<Cidade> listarTodos;
-
     public CidadeDAO() {
-    }
-    
-    public void persist(Cidade objeto) throws Exception {
-        em.persist(objeto);        
-    }
-    
-    public void merge(Cidade objeto) throws Exception {
-        em.merge(objeto);
-    }
-    
-    public void remove(Cidade objeto) throws Exception{
-        objeto = em.merge(objeto);
-        em.remove(objeto);
-    }
-    
-    public Cidade getObjectById(Integer id) throws Exception {
-        return em.find(Cidade.class, id);
-    }
+        super();
+        super.setPersistentClass(Cidade.class);
 
-    public EntityManager getEm() {
-        return em;
-    }
+        super.getListOrder().add(
+                new Order("id", "ID", "="));
+        super.getListOrder().add(
+                new Order("nome", "Nome", "like"));
+        super.getListOrder().add(
+                new Order("estado", "Estado", "="));
 
-    public void setEm(EntityManager em) {
-        this.em = em;
-    }
+        super.setCurrentOrder((Order) super.getListOrder().get(1));
 
-    public List<Cidade> getListarTodos() {
-        return em.createQuery("from Cidade order by nome").getResultList();
-    }
+        super.setFilter("");
 
-    public void setListarTodos(List<Cidade> listarTodos) {
-        this.listarTodos = listarTodos;
+        super.setConverterOrder(new ConverterOrder(super.getListOrder()));
     }
-
-}
+ }

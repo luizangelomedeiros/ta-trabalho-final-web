@@ -11,8 +11,55 @@
         </ui:define>
         <ui:define name="conteudo"> 
             <h:form id="formListagem" prependId="false">
-                <p:growl/>               
-                <p:dataTable value="#{controleGenero.dao.listarTodos}" var="obj">
+                <p:growl/>  
+                
+                <div align="center">
+                  <p:panelGrid columns="1">
+                      <f:facet name="header">  
+                          Filtro Ordenação e Paginação 
+                      </f:facet>                          
+                      <p:column  colspan="13" rowspan="1">                                                        
+                          <h:outputLabel for="ordem" value="Ordem " />     
+                          <h:selectOneMenu id="ordem" style="margin-right:20px" 
+                                            value="#{controleGenero.dao.currentOrder}"
+                                            converter="#{controleGenero.dao.converterOrder}">
+                              <f:selectItems value="#{controleGenero.dao.listOrder}" />
+                              <p:ajax update="formListagem" 
+                                      listener="#{controleGenero.listar()}"/>
+                          </h:selectOneMenu>                            
+
+                          <h:outputLabel for="maximoObjetos" value="Máximo de objetos " />
+                          <p:inputText id="maximoObjetos" style="margin-right:20px"  
+                                        value="#{controleGenero.dao.maxObjects}" size="2"
+                                        onkeydown="Mascara(this, Integer);"
+                                        onkeypress="Mascara(this, Integer);"
+                                        onkeyup="Mascara(this, Integer);">
+                              <p:ajax update="tabela"
+                                      listener="#{controleGenero.listar()}" event="keyup"/>                          
+                          </p:inputText>  
+
+                          <h:outputLabel for="filtro" value="Filtro " />
+                          <p:inputText id="filtro" placeholder="Digite o filtro" style="margin-right:20px" 
+                                        value="#{controleGenero.dao.filter}" >
+                              <p:ajax update="tabela" 
+                                      listener="#{controleGenero.listar()}" event="keyup"/>                            
+                          </p:inputText>
+
+                          <p:commandButton id="btnFiltrar" update="formListagem" 
+                                            actionListener="#{controleGenero.listar()}" icon="ui-icon-search" />  
+                          <p:commandButton id="btnPrimeiro" update="formListagem" 
+                                            actionListener="#{controleGenero.dao.first()}" icon="ui-icon-seek-start"/>  
+                          <p:commandButton id="btnAnterior" update="formListagem" 
+                                            actionListener="#{controleGenero.dao.previous()}" icon="ui-icon-seek-prev"/>  
+                          <p:commandButton  id="btnProximo" update="formListagem" 
+                                            actionListener="#{controleGenero.dao.next()}" icon="ui-icon-seek-next"/>  
+                          <p:commandButton id="btnUltimo" update="formListagem" 
+                                            actionListener="#{controleGenero.dao.last()}" icon="ui-icon-seek-end" /> 
+                      </p:column>  
+                  </p:panelGrid>                     
+              </div>  
+                               
+                <p:dataTable id="tabela" value="#{controleGenero.dao.listObjects()}" var="obj">
                 <f:facet name="header">
                     <p:commandButton value="Novo"
                                      actionListener="#{controleGenero.novo()}"
@@ -22,10 +69,9 @@
                      <p:outputLabel value="Listagem de Gêneros"/>
                 </f:facet>
 
-                    <f:facet name="footer">
-                        <div align="center">
-                            <p:outputLabel value="Total de registros: #{controleGenero.dao.listarTodos.size()}"/>
-                        </div>
+                 
+                     <f:facet name="footer">  
+                        <h:outputLabel value="#{controleGenero.dao.navigationMessage}" />
                     </f:facet>
                     
                     <p:column headerText="ID">

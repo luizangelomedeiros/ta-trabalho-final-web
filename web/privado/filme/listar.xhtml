@@ -11,22 +11,68 @@
         </ui:define>
         <ui:define name="conteudo"> 
             <h:form id="formListagem" prependId="false">
-                <p:growl/>               
-                <p:dataTable value="#{controleFilme.dao.listarTodos}" var="obj">
-                <f:facet name="header">
-                    <p:commandButton value="Novo"
-                                     actionListener="#{controleFilme.novo()}"
-                                     update=":formEdicao"
-                                     process="@form"
-                                     oncomplete="PF('dlg').show();"/>
-                     <p:outputLabel value="Listagem de Filmes"/>
-                </f:facet>
+                <p:growl/>  
+               
+                <div align="center">
+                  <p:panelGrid columns="1">
+                      <f:facet name="header">  
+                          Filtro Ordenação e Paginação 
+                      </f:facet>                          
+                      <p:column  colspan="13" rowspan="1">                                                        
+                          <h:outputLabel for="ordem" value="Ordem " />     
+                          <h:selectOneMenu id="ordem" style="margin-right:20px" 
+                                            value="#{controleFilme.dao.currentOrder}"
+                                            converter="#{controleFilme.dao.converterOrder}">
+                              <f:selectItems value="#{controleFilme.dao.listOrder}" />
+                              <p:ajax update="formListagem" 
+                                      listener="#{controleFilme.listar()}"/>
+                          </h:selectOneMenu>                            
 
-                    <f:facet name="footer">
-                        <div align="center">
-                            <p:outputLabel value="Total de registros: #{controleFilme.dao.listarTodos.size()}"/>
-                        </div>
+                          <h:outputLabel for="maximoObjetos" value="Máximo de objetos " />
+                          <p:inputText id="maximoObjetos" style="margin-right:20px"  
+                                        value="#{controleFilme.dao.maxObjects}" size="2"
+                                        onkeydown="Mascara(this, Integer);"
+                                        onkeypress="Mascara(this, Integer);"
+                                        onkeyup="Mascara(this, Integer);">
+                              <p:ajax update="tabela"
+                                      listener="#{controleFilme.listar()}" event="keyup"/>                          
+                          </p:inputText>  
+
+                          <h:outputLabel for="filtro" value="Filtro " />
+                          <p:inputText id="filtro" placeholder="Digite o filtro" style="margin-right:20px" 
+                                        value="#{controleFilme.dao.filter}" >
+                              <p:ajax update="tabela" 
+                                      listener="#{controleFilme.listar()}" event="keyup"/>                            
+                          </p:inputText>
+
+                          <p:commandButton id="btnFiltrar" update="formListagem" 
+                                            actionListener="#{controleFilme.listar()}" icon="ui-icon-search" />  
+                          <p:commandButton id="btnPrimeiro" update="formListagem" 
+                                            actionListener="#{controleFilme.dao.first()}" icon="ui-icon-seek-start"/>  
+                          <p:commandButton id="btnAnterior" update="formListagem" 
+                                            actionListener="#{controleFilme.dao.previous()}" icon="ui-icon-seek-prev"/>  
+                          <p:commandButton  id="btnProximo" update="formListagem" 
+                                            actionListener="#{controleFilme.dao.next()}" icon="ui-icon-seek-next"/>  
+                          <p:commandButton id="btnUltimo" update="formListagem" 
+                                            actionListener="#{controleFilme.dao.last()}" icon="ui-icon-seek-end" /> 
+                      </p:column>  
+                  </p:panelGrid>                     
+              </div>  
+                
+                <p:dataTable id="tabela" value="#{controleFilme.dao.listObjects()}" var="obj">
+                    <f:facet name="header">
+                        <p:commandButton value="Novo"
+                                         actionListener="#{controleFilme.novo()}"
+                                         update=":formEdicao"
+                                         process="@form"
+                                         oncomplete="PF('dlg').show();"/>
+                         <p:outputLabel value="Listagem de Filmes"/>
                     </f:facet>
+
+                     <f:facet name="footer">  
+                        <h:outputLabel value="#{controleFilme.dao.navigationMessage}" />
+                    </f:facet> 
+                    
                     <p:column headerText="ID">
                         <p:outputLabel value="#{obj.id}"/>
                     </p:column>
@@ -110,7 +156,7 @@
                                         <f:converter converterId="converterGenero"/>
                                         <f:selectItem noSelectionOption="true"
                                                       itemLabel="Selecione um registro"/>
-                                        <f:selectItems value="#{controleFilme.generoDao.listarTodos}"
+                                        <f:selectItems value="#{controleFilme.generoDao.listObjects()}"
                                                        var="p" itemLabel="#{p.nome}"/>
                                     </p:selectOneMenu> 
                                         
@@ -248,7 +294,7 @@
                         <p:outputLabel value="Cinema"/>
                         <p:selectOneMenu value="#{controleFilme.sessao.cinema}" id="selectCidade">
                             <f:converter converterId="converterCinema"/>
-                            <f:selectItems value="#{controleFilme.cinemaDao.listarTodos}"
+                            <f:selectItems value="#{controleFilme.cinemaDao.listObjects()}"
                                            var="c" itemLabel="#{c.id}-#{c.cidade}-#{c.endereco}"/>
                         </p:selectOneMenu>  
                     </p:panelGrid>

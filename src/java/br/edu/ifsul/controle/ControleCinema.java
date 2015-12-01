@@ -2,6 +2,7 @@ package br.edu.ifsul.controle;
 
 import br.edu.ifsul.dao.CidadeDAO;
 import br.edu.ifsul.dao.CinemaDAO;
+import br.edu.ifsul.modelo.Cidade;
 import br.edu.ifsul.modelo.Cinema;
 import br.edu.ifsul.util.Util;
 import java.io.Serializable;
@@ -15,11 +16,11 @@ import javax.faces.bean.ViewScoped;
 public class ControleCinema implements Serializable {
 
     @EJB
-    private CinemaDAO dao;
+    private CinemaDAO<Cinema> dao;
     private Cinema objeto; 
       
     @EJB
-    private CidadeDAO daoCidades;
+    private CidadeDAO<Cidade> daoCidades;
     
     public ControleCinema() {
     }
@@ -67,15 +68,7 @@ public class ControleCinema implements Serializable {
             Util.mensagemErro("Erro ao remover objeto:"+Util.getMensagemErro(e));
         }
     }
-
-    public CinemaDAO getDao() {
-        return dao;
-    }
-
-    public void setDao(CinemaDAO dao) {
-        this.dao = dao;
-    }
-
+    
     public Cinema getObjeto() {
         return objeto;
     }
@@ -84,13 +77,22 @@ public class ControleCinema implements Serializable {
         this.objeto = objeto;
     }
 
-    public CidadeDAO getDaoCidades() {
+    public CinemaDAO<Cinema> getDao() {
+        return dao;
+    }
+
+    public void setDao(CinemaDAO<Cinema> dao) {
+        this.dao = dao;
+    }
+
+    public CidadeDAO<Cidade> getDaoCidades() {
         return daoCidades;
     }
 
-    public void setDaoCidades(CidadeDAO daoCidades) {
+    public void setDaoCidades(CidadeDAO<Cidade> daoCidades) {
         this.daoCidades = daoCidades;
     }
+
     
     
     

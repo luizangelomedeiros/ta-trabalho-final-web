@@ -1,5 +1,6 @@
 package br.edu.ifsul.dao;
 
+import br.edu.ifsul.converters.ConverterOrder;
 import br.edu.ifsul.modelo.Cinema;
 import java.io.Serializable;
 import java.util.List;
@@ -8,47 +9,25 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Stateless
-public class CinemaDAO implements Serializable {
-    
-    @PersistenceContext(unitName = "TA-FINAL-WebPU")
-    private EntityManager em;
-    private List<Cinema> listarTodos;
-
+public class CinemaDAO<T> extends GenericDAO<Cinema> implements Serializable {
+   
     public CinemaDAO() {
-    }
-    
-    public void persist(Cinema objeto) throws Exception {
-        em.persist(objeto);        
-    }
-    
-    public void merge(Cinema objeto) throws Exception {
-        em.merge(objeto);
-    }
-    
-    public void remove(Cinema objeto) throws Exception{
-        objeto = em.merge(objeto);
-        em.remove(objeto);
-    }
-    
-    public Cinema getObjectById(Integer id) throws Exception {
-        Cinema obj = em.find(Cinema.class, id);
-        return obj;
-    }
+        super();
+        super.setPersistentClass(Cinema.class);
 
-    public EntityManager getEm() {
-        return em;
-    }
+        super.getListOrder().add(new Order("id", "ID", "="));
+        super.getListOrder().add(new Order("capacidadetotal", "Capacidade", "="));
+        super.getListOrder().add(new Order("endereco", "Endereço", "like"));
+        super.getListOrder().add(new Order("horariofunc", "Horário", "like"));
+        super.getListOrder().add(new Order("qtdfuncionarios", "Qtd. Funcionarios", "="));
+        super.getListOrder().add(new Order("qtdsalas", "Qtd. Salas", "="));
+        super.getListOrder().add(new Order("cidade", "Cidade", "="));
 
-    public void setEm(EntityManager em) {
-        this.em = em;
-    }
+        super.setCurrentOrder((Order) super.getListOrder().get(0));
 
-    public List<Cinema> getListarTodos() {
-        return em.createQuery("from Cinema order by id").getResultList();
-    }
+        super.setFilter("");
 
-    public void setListarTodos(List<Cinema> listarTodos) {
-        this.listarTodos = listarTodos;
+        super.setConverterOrder(new ConverterOrder(super.getListOrder()));
     }
 
 }

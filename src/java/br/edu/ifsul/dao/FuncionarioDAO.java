@@ -1,6 +1,7 @@
 
 package br.edu.ifsul.dao;
 
+import br.edu.ifsul.converters.ConverterOrder;
 import br.edu.ifsul.modelo.Funcionario;
 import java.io.Serializable;
 import java.util.List;
@@ -9,47 +10,27 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Stateless
-public class FuncionarioDAO implements Serializable {
+public class FuncionarioDAO<T> extends GenericDAO<Funcionario> implements Serializable {
     
-    @PersistenceContext(unitName = "TA-FINAL-WebPU")
-    private EntityManager em;
-    private List<Funcionario> listarTodos;
-
     public FuncionarioDAO() {
-    }
-    
-    public void persist(Funcionario objeto) throws Exception {
-        em.persist(objeto);        
-    }
-    
-    public void merge(Funcionario objeto) throws Exception {
-        em.merge(objeto);
-    }
-    
-    public void remove(Funcionario objeto) throws Exception{
-        objeto = em.merge(objeto);
-        em.remove(objeto);
-    }
-    
-    public Funcionario getObjectById(Integer id) throws Exception {
-        Funcionario obj = em.find(Funcionario.class, id);
-        return obj;
-    }
+        super();
+        super.setPersistentClass(Funcionario.class);
 
-    public EntityManager getEm() {
-        return em;
-    }
+        super.getListOrder().add(new Order("id", "ID", "="));
+        super.getListOrder().add(new Order("nome", "Nome", "like"));
+        super.getListOrder().add(new Order("cpf", "CPF", "like"));
+        super.getListOrder().add(new Order("data_nascimento", "Data de Nascimento", "like"));
+        super.getListOrder().add(new Order("endereco", "Endereço", "like"));
+        super.getListOrder().add(new Order("estado_civil", "Estado Civil", "like"));
+        super.getListOrder().add(new Order("salario", "Salário", "="));
+        super.getListOrder().add(new Order("usuario", "Usuário", "like"));
+        super.getListOrder().add(new Order("idcinema", "ID Cinema", "="));
 
-    public void setEm(EntityManager em) {
-        this.em = em;
-    }
+        super.setCurrentOrder((Order) super.getListOrder().get(1));
 
-    public List<Funcionario> getListarTodos() {
-        return em.createQuery("from Funcionario order by nome").getResultList();
-    }
+        super.setFilter("");
 
-    public void setListarTodos(List<Funcionario> listarTodos) {
-        this.listarTodos = listarTodos;
+        super.setConverterOrder(new ConverterOrder(super.getListOrder()));
     }
-
+   
 }

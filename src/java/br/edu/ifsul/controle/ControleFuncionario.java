@@ -2,6 +2,7 @@ package br.edu.ifsul.controle;
 
 import br.edu.ifsul.dao.CinemaDAO;
 import br.edu.ifsul.dao.FuncionarioDAO;
+import br.edu.ifsul.modelo.Cinema;
 import br.edu.ifsul.modelo.Funcionario;
 import br.edu.ifsul.util.Util;
 import java.io.Serializable;
@@ -15,10 +16,10 @@ import javax.faces.bean.ViewScoped;
 public class ControleFuncionario implements Serializable {
 
     @EJB
-    private FuncionarioDAO dao;
+    private FuncionarioDAO<Funcionario> dao;
     private Funcionario objeto;
     @EJB
-    private CinemaDAO daoCinema;
+    private CinemaDAO<Cinema> daoCinema;
     
     public ControleFuncionario() {
     }
@@ -62,11 +63,11 @@ public class ControleFuncionario implements Serializable {
         }
     }
 
-    public FuncionarioDAO getDao() {
+    public FuncionarioDAO<Funcionario> getDao() {
         return dao;
     }
 
-    public void setDao(FuncionarioDAO dao) {
+    public void setDao(FuncionarioDAO<Funcionario> dao) {
         this.dao = dao;
     }
 
@@ -78,12 +79,14 @@ public class ControleFuncionario implements Serializable {
         this.objeto = objeto;
     }
 
-    public CinemaDAO getDaoCinema() {
+    public CinemaDAO<Cinema> getDaoCinema() {
         return daoCinema;
     }
 
-    public void setDaoCinema(CinemaDAO daoCinema) {
+    public void setDaoCinema(CinemaDAO<Cinema> daoCinema) {
         this.daoCinema = daoCinema;
     }
+
+    
     
 }

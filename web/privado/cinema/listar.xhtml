@@ -11,8 +11,54 @@
         </ui:define>
         <ui:define name="conteudo"> 
             <h:form id="formListagem" prependId="false">
-                <p:growl/>               
-                <p:dataTable value="#{controleCinema.dao.listarTodos}" var="obj">
+                <p:growl/>
+                <div align="center">
+                  <p:panelGrid columns="1">
+                      <f:facet name="header">  
+                          Filtro Ordenação e Paginação 
+                      </f:facet>                          
+                      <p:column  colspan="13" rowspan="1">                                                        
+                          <h:outputLabel for="ordem" value="Ordem " />     
+                          <h:selectOneMenu id="ordem" style="margin-right:20px" 
+                                            value="#{controleCinema.dao.currentOrder}"
+                                            converter="#{controleCinema.dao.converterOrder}">
+                              <f:selectItems value="#{controleCinema.dao.listOrder}" />
+                              <p:ajax update="formListagem" 
+                                      listener="#{controleCinema.listar()}"/>
+                          </h:selectOneMenu>                            
+
+                          <h:outputLabel for="maximoObjetos" value="Máximo de objetos " />
+                          <p:inputText id="maximoObjetos" style="margin-right:20px"  
+                                        value="#{controleCinema.dao.maxObjects}" size="2"
+                                        onkeydown="Mascara(this, Integer);"
+                                        onkeypress="Mascara(this, Integer);"
+                                        onkeyup="Mascara(this, Integer);">
+                              <p:ajax update="tabela"
+                                      listener="#{controleCinema.listar()}" event="keyup"/>                          
+                          </p:inputText>  
+
+                          <h:outputLabel for="filtro" value="Filtro " />
+                          <p:inputText id="filtro" placeholder="Digite o filtro" style="margin-right:20px" 
+                                        value="#{controleCinema.dao.filter}" >
+                              <p:ajax update="tabela" 
+                                      listener="#{controleCinema.listar()}" event="keyup"/>                            
+                          </p:inputText>
+
+                          <p:commandButton id="btnFiltrar" update="formListagem" 
+                                            actionListener="#{controleCinema.listar()}" icon="ui-icon-search" />  
+                          <p:commandButton id="btnPrimeiro" update="formListagem" 
+                                            actionListener="#{controleCinema.dao.first()}" icon="ui-icon-seek-start"/>  
+                          <p:commandButton id="btnAnterior" update="formListagem" 
+                                            actionListener="#{controleCinema.dao.previous()}" icon="ui-icon-seek-prev"/>  
+                          <p:commandButton  id="btnProximo" update="formListagem" 
+                                            actionListener="#{controleCinema.dao.next()}" icon="ui-icon-seek-next"/>  
+                          <p:commandButton id="btnUltimo" update="formListagem" 
+                                            actionListener="#{controleCinema.dao.last()}" icon="ui-icon-seek-end" /> 
+                      </p:column>  
+                  </p:panelGrid>                     
+              </div>  
+
+                <p:dataTable id="tabela" value="#{controleCinema.dao.listObjects()}" var="obj">
                 <f:facet name="header">
                     <p:commandButton value="Novo"
                                      actionListener="#{controleCinema.novo()}"
@@ -22,11 +68,9 @@
                      <p:outputLabel value="Listagem de Cinemas"/>
                 </f:facet>
 
-                    <f:facet name="footer">
-                        <div align="center">
-                            <p:outputLabel value="Total de registros: #{controleCinema.dao.listarTodos.size()}"/>
-                        </div>
-                    </f:facet>
+                     <f:facet name="footer">  
+                        <h:outputLabel value="#{controleCinema.dao.navigationMessage}" />
+                    </f:facet> 
                     
                     <p:column headerText="ID">
                         <p:outputLabel value="#{obj.id}"/>
@@ -99,7 +143,7 @@
                                     <p:outputLabel value="CIDADE"/>
                                     <p:selectOneMenu value="#{controleCinema.objeto.cidade}" id="selectCidade">
                                         <f:converter converterId="converterCidade"/>
-                                        <f:selectItems value="#{controleCinema.daoCidades.listarTodos}"
+                                        <f:selectItems value="#{controleCinema.daoCidades.listObjects()}"
                                                        var="c" itemLabel="#{c.nome}"/>
                                     </p:selectOneMenu>
 

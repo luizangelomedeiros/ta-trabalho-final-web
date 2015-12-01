@@ -16,7 +16,7 @@ import javax.faces.bean.ViewScoped;
 public class ControleGenero implements Serializable {
 
     @EJB
-    private GeneroDAO dao;
+    private GeneroDAO<Genero> dao;
     private Genero objeto;    
 
     public ControleGenero() {
@@ -63,11 +63,11 @@ public class ControleGenero implements Serializable {
         }
     }
 
-    public GeneroDAO getDao() {
+    public GeneroDAO<Genero> getDao() {
         return dao;
     }
 
-    public void setDao(GeneroDAO dao) {
+    public void setDao(GeneroDAO<Genero> dao) {
         this.dao = dao;
     }
 
@@ -78,8 +78,13 @@ public class ControleGenero implements Serializable {
     public void setObjeto(Genero objeto) {
         this.objeto = objeto;
     }
-    
-    
-    
+
+    public Calendar getDiaDeHoje() {
+        return diaDeHoje;
+    }
+
+    public void setDiaDeHoje(Calendar diaDeHoje) {
+        this.diaDeHoje = diaDeHoje;
+    }
     
 }

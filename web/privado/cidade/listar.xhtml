@@ -10,21 +10,69 @@
             Listagem de cidades
         </ui:define>
         <ui:define name="conteudo">
-            <h:form>
+            <h:form id="formListagem" prependId="false">
                 <p:growl/>
-                <p:dataTable value="#{controleCidade.dao.listarTodos}" var="obj"
-                             emptyMessage="Nenhum registro encontrado">
-                    <f:facet name="header">
+                <div align="center">
+                    <p:panelGrid columns="1">
+                        <f:facet name="header">  
+                            Filtro Ordenação e Paginação 
+                        </f:facet>                          
+                        <p:column  colspan="13" rowspan="1">                                                        
+                            <h:outputLabel for="ordem" value="Ordem " />     
+                            <h:selectOneMenu id="ordem" style="margin-right:20px" 
+                                              value="#{controleCidade.dao.currentOrder}"
+                                              converter="#{controleCidade.dao.converterOrder}">
+                                <f:selectItems value="#{controleCidade.dao.listOrder}" />
+                                <p:ajax update="formListagem" 
+                                        listener="#{controleCidade.listar()}"/>
+                            </h:selectOneMenu>                            
+
+                            <h:outputLabel for="maximoObjetos" value="Máximo de objetos " />
+                            <p:inputText id="maximoObjetos" style="margin-right:20px"  
+                                          value="#{controleCidade.dao.maxObjects}" size="2"
+                                          onkeydown="Mascara(this, Integer);"
+                                          onkeypress="Mascara(this, Integer);"
+                                          onkeyup="Mascara(this, Integer);">
+                                <p:ajax update="tabela"
+                                        listener="#{controleCidade.listar()}" event="keyup"/>                          
+                            </p:inputText>  
+
+                            <h:outputLabel for="filtro" value="Filtro " />
+                            <p:inputText id="filtro" placeholder="Digite o filtro" style="margin-right:20px" 
+                                          value="#{controleCidade.dao.filter}" >
+                                <p:ajax update="tabela" 
+                                        listener="#{controleCidade.listar()}" event="keyup"/>                            
+                            </p:inputText>
+
+                            <p:commandButton id="btnFiltrar" update="formListagem" 
+                                              actionListener="#{controleCidade.listar()}" icon="ui-icon-search" />  
+                            <p:commandButton id="btnPrimeiro" update="formListagem" 
+                                              actionListener="#{controleCidade.dao.first()}" icon="ui-icon-seek-start"/>  
+                            <p:commandButton id="btnAnterior" update="formListagem" 
+                                              actionListener="#{controleCidade.dao.previous()}" icon="ui-icon-seek-prev"/>  
+                            <p:commandButton  id="btnProximo" update="formListagem" 
+                                              actionListener="#{controleCidade.dao.next()}" icon="ui-icon-seek-next"/>  
+                            <p:commandButton id="btnUltimo" update="formListagem" 
+                                              actionListener="#{controleCidade.dao.last()}" icon="ui-icon-seek-end" /> 
+                        </p:column>  
+                    </p:panelGrid>                     
+                </div>  
+
+                <p:dataTable id="tabela" value="#{controleCidade.dao.listObjects()}"
+                             var="obj">
+                     <f:facet name="header">
                         <p:commandButton value="Novo"
-                                         action="#{controleCidade.novo()}"
-                                         ajax="false"/>
-                        <p:outputLabel value="Listagem de cidades"/>
-                     </f:facet> 
-
-                    <f:facet name="footer">
-                        <p:outputLabel value="Total de registros: #{controleCidade.dao.listarTodos.size()}"/>
+                                         actionListener="#{controleCidade.novo()}"
+                                         update=":formEdicao"
+                                         process="@form"
+                                         oncomplete="PF('dlg').show();"/>
+                         <p:outputLabel value="Listagem de Cidades"/>
                     </f:facet>
-
+                    
+                    <f:facet name="footer">  
+                        <h:outputLabel value="#{controleCidade.dao.navigationMessage}" />
+                    </f:facet> 
+                    
                     <p:column headerText="ID">
                         <p:outputLabel value="#{obj.id}"/>
                     </p:column>
@@ -38,17 +86,61 @@
                         <div align="center">
                             <p:commandButton icon="ui-icon-pencil"
                                              action="#{controleCidade.editar(obj.id)}"
-                                             ajax="false"/>
-                            <p:commandButton icon="ui-icon-trash"
+                                             oncomplete="PF('dlg').show();"
+                                             update=":formEdicao"
+                                             process="@form"/>
+                            
+                             <p:commandButton icon="ui-icon-trash"
                                              action="#{controleCidade.excluir(obj.id)}"
                                              update="@form" process="@form"
                                              onclick="if (!confirm('Confirma a exclusão do objeto?'))
-                                                     return false"/>
+                                                         return false"/>    
                         </div>
                     </p:column>
                 </p:dataTable>
             </h:form>
-
+       </ui:define>
+        
+        <ui:define name="dialogos">
+            <p:dialog header="Edição" widgetVar="dlg"
+                      resizable="false" modal="true" width="600" height="480">
+                <h:form id="formEdicao" prependId="false">
+                    <p:growl id="growl"/>
+                    <p:tabView id="tab">
+                        <p:tab title="Dados Principais">
+                            <div align="center">
+                                <p:panelGrid columns="2">
+                                    <f:facet name="footer">
+                                        <div align="center">
+                                            <p:commandButton actionListener="#{controleCidade.salvar()}"
+                                                             update="formListagem formEdicao" 
+                                                             value="Salvar" icon="ui-icon-disk"
+                                                             oncomplete="if(!args.validationFailed){PF('dlg').hide()};"/>
+                                        </div>
+                                    </f:facet>
+                                        <p:outputLabel value="ID"/>
+                                        <p:inputText value="#{controleCidade.objeto.id}"
+                                                     readonly="true" size="5"/>
+                                        
+                                        <p:outputLabel value="Nome" for="txtNome"/>
+                                        <p:inputText value="#{controleCidade.objeto.nome}"
+                                                     size="50" maxlength="50"
+                                                     id="txtNome" required="true"
+                                                     placeholder="Obrigatório"/>
+                                        
+                                        <p:outputLabel value="Estado" for="selectEstado"/>
+                                        <p:selectOneMenu value="#{controleCidade.objeto.estado}" id="selectEstado"
+                                                         required="true">
+                                            <f:converter converterId="converterEstado"/>
+                                            <f:selectItems value="#{controleCidade.daoEstado.listObjects()}"
+                                                           var="e" itemLabel="#{e.nome}"/>
+                                        </p:selectOneMenu>
+                                </p:panelGrid>
+                            </div>
+                        </p:tab>                        
+                    </p:tabView>                    
+                </h:form>
+            </p:dialog>            
         </ui:define>
     </ui:composition>
 

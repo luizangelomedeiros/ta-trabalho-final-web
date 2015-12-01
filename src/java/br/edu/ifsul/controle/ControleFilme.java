@@ -3,6 +3,7 @@ package br.edu.ifsul.controle;
 import br.edu.ifsul.dao.CinemaDAO;
 import br.edu.ifsul.dao.FilmeDAO;
 import br.edu.ifsul.dao.GeneroDAO;
+import br.edu.ifsul.modelo.Cinema;
 import br.edu.ifsul.modelo.Filme;
 import br.edu.ifsul.modelo.Genero;
 import br.edu.ifsul.modelo.Sessao;
@@ -18,14 +19,14 @@ import javax.faces.bean.ViewScoped;
 public class ControleFilme implements Serializable {
 
     @EJB
-    private FilmeDAO dao;
+    private FilmeDAO<Filme> dao;
     private Filme objeto;    
     @EJB
-    private CinemaDAO cinemaDao;    
+    private CinemaDAO<Cinema> cinemaDao;    
     private Sessao sessao; 
     private boolean novaSessao;
     @EJB
-    private GeneroDAO generoDao;    
+    private GeneroDAO<Genero> generoDao;    
     private Genero genero;
 
     public ControleFilme() {
@@ -109,12 +110,12 @@ public class ControleFilme implements Serializable {
         objeto.removerSessao(index); 
         Util.mensagemInformacao("Operação realizada com sucesso!");
     }
-    
-    public FilmeDAO getDao() {
+
+    public FilmeDAO<Filme> getDao() {
         return dao;
     }
 
-    public void setDao(FilmeDAO dao) {
+    public void setDao(FilmeDAO<Filme> dao) {
         this.dao = dao;
     }
 
@@ -124,6 +125,14 @@ public class ControleFilme implements Serializable {
 
     public void setObjeto(Filme objeto) {
         this.objeto = objeto;
+    }
+
+    public CinemaDAO<Cinema> getCinemaDao() {
+        return cinemaDao;
+    }
+
+    public void setCinemaDao(CinemaDAO<Cinema> cinemaDao) {
+        this.cinemaDao = cinemaDao;
     }
 
     public Sessao getSessao() {
@@ -142,12 +151,12 @@ public class ControleFilme implements Serializable {
         this.novaSessao = novaSessao;
     }
 
-    public CinemaDAO getCinemaDao() {
-        return cinemaDao;
+    public GeneroDAO<Genero> getGeneroDao() {
+        return generoDao;
     }
 
-    public void setCinemaDao(CinemaDAO cinemaDao) {
-        this.cinemaDao = cinemaDao;
+    public void setGeneroDao(GeneroDAO<Genero> generoDao) {
+        this.generoDao = generoDao;
     }
 
     public Genero getGenero() {
@@ -156,14 +165,6 @@ public class ControleFilme implements Serializable {
 
     public void setGenero(Genero genero) {
         this.genero = genero;
-    }
-
-    public GeneroDAO getGeneroDao() {
-        return generoDao;
-    }
-
-    public void setGeneroDao(GeneroDAO generoDao) {
-        this.generoDao = generoDao;
     }
     
 }
