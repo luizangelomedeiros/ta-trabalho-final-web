@@ -8,11 +8,12 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 
 @ManagedBean(name = "controleGenero")
-@ViewScoped
+@SessionScoped
 public class ControleGenero implements Serializable {
 
     @EJB

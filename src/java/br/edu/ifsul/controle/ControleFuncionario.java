@@ -8,18 +8,23 @@ import br.edu.ifsul.util.Util;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 
 @ManagedBean(name = "controleFuncionario")
-@ViewScoped
+@SessionScoped
 public class ControleFuncionario implements Serializable {
 
     @EJB
     private FuncionarioDAO<Funcionario> dao;
     private Funcionario objeto;
+    private Funcionario usuarioLogado;
+
     @EJB
     private CinemaDAO<Cinema> daoCinema;
+    
+    private String usuario;
+    private String senha;
     
     public ControleFuncionario() {
     }
@@ -63,6 +68,33 @@ public class ControleFuncionario implements Serializable {
         }
     }
 
+     public String paginaLogin() {
+        return "/login?faces-redirect=true";
+    }
+    
+    public String efetuarLogin(){
+        if (dao.login(usuario, senha)) {
+            usuarioLogado = dao.localizaPorNomeUsuario(usuario);
+            try{
+                dao.merge(usuarioLogado);
+            }catch(Exception e){
+                Util.mensagemErro("Erro ao persistir Usuário" + e.getMessage());
+            }
+            Util.mensagemInformacao("Login efetuado com sucesso");
+            return "/index?faces-redirect=true";
+        } else {
+            Util.mensagemInformacao("Usuário ou senha inválidos!");
+            return "/login?faces-redirect=true";
+        }
+    }
+    
+    public String efetuarLogout() {
+        usuarioLogado = null;
+        Util.mensagemInformacao("Logout efetuado com sucesso");
+        return "/login?faces-redirect=true";
+    }
+
+    
     public FuncionarioDAO<Funcionario> getDao() {
         return dao;
     }
@@ -85,6 +117,30 @@ public class ControleFuncionario implements Serializable {
 
     public void setDaoCinema(CinemaDAO<Cinema> daoCinema) {
         this.daoCinema = daoCinema;
+    }
+
+    public Funcionario getUsuarioLogado() {
+        return usuarioLogado;
+    }
+
+    public void setUsuarioLogado(Funcionario usuarioLogado) {
+        this.usuarioLogado = usuarioLogado;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     

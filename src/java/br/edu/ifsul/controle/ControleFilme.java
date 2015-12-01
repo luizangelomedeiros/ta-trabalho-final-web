@@ -11,11 +11,12 @@ import br.edu.ifsul.util.Util;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 
 @ManagedBean(name = "controleFilme")
-@ViewScoped
+@SessionScoped
 public class ControleFilme implements Serializable {
 
     @EJB

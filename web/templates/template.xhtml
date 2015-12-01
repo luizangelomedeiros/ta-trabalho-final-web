@@ -50,6 +50,16 @@
                                         ajax="false"/>                  
                                                                                                                                  
                         </p:submenu>
+                         <p:submenu label="Sair" rendered="#{controleFuncionario.usuarioLogado != null}">
+                            <p:menuitem action="#{controleFuncionario.efetuarLogout()}"
+                                        value="Logout"
+                                        ajax="false"/>
+                        </p:submenu>
+                        <p:submenu label="Login" rendered="#{controleFuncionario.usuarioLogado == null}">
+                            <p:menuitem action="#{controleFuncionario.paginaLogin()}"
+                                        value="Login"
+                                        ajax="false"/>
+                        </p:submenu>
                     </p:menu>
                 </h:form>
             </p:layoutUnit>
